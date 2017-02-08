@@ -31,9 +31,11 @@ apt autoclean
 Standard R-Pi settings are a bit too insecure for me.
 
 - Change the `pi` user's password. **Make it good**
+
 `pi@vpnbridge:~$ passwd` Follow the instructions
 
 - Change root's password. **Make this good and long!**
+
 ```
 sudo su
 root@vpnbridge:~# passwd
