@@ -27,6 +27,10 @@ apt-get autoremove -y
 apt autoclean
 ```
 
+- Install the Openvpn application
+
+`apt-get install openvpn -y`
+
 ### Get things a bit more secure
 Standard R-Pi settings are a bit too insecure for me.
 
@@ -73,5 +77,30 @@ Then rename the file:
 
 `sudo chmod 700 /root/client.ovpn`
 
-- 
+- Setup the script to connect to OpenVPN at boot and disconnect at shutdown
+```
+sudo su
+cd /etc/init.d
+nano vpnconnect
+```
+
+Cut and paste the script from vpnconnect in this directory into nano.
+
+**Note: In you need to make any changes to this file, be sure that it includes the full path to openvpn such as `/usr/sbin/openvpn`. Leaving it up to your $PATH can lead to another easy privilege escalation!**
+
+Save and exit
+
+- Adjust permissions for the file
+
+`chmod 755 vpnconnect`
+
+- Set it to start at boot
+
+`update-rc.d vpnconnect defaults
+
+- Test it out
+
+`reboot`
+
+Check your OpenVPN server to make sure it is connected once the R-Pi boots up.
 
