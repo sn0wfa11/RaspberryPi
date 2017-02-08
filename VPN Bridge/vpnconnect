@@ -1,0 +1,34 @@
+#! /bin/sh
+# /etc/init.d/vpnconnect 
+
+### BEGIN INIT INFO
+# Provides:          openvpn
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Connects to OpenVPN at boot time
+# Description:       This script will start and stop OpenVPN connection at boot and shut down.
+### END INIT INFO
+
+# If you want a command to always run, put it here
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting OpenVPN Connection"
+    # run application you want to start
+    /usr/sbin/openvpn /root/client.ovpn
+    ;;
+  stop)
+    echo "Stopping OpenVPN Connection"
+    # kill application you want to stop
+    killall openvpn
+    ;;
+  *)
+    echo "Usage: /etc/init.d/vpnconnect {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
