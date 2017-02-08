@@ -94,6 +94,23 @@ Save and exit
 
 `chmod 755 vpnconnect`
 
+- Ensure that the file is owned by root and permissions are correct.
+
+`ls -al | grep vpnconnect`
+
+You should see something like:
+
+`-rwxr-xr-x   1 root root  857 Feb  7 21:49 vpnconnect`
+
+If not, do the following
+
+```
+chown root:root vpnconnect
+ls -al | grep vpnconnect
+```
+
+Ensure it matches the permissions and owner like the above line.
+
 - Set it to start at boot
 
 `update-rc.d vpnconnect defaults`
@@ -108,7 +125,23 @@ Also check that the R-Pi knows it is connected:
 
 `ifconfig`
 
-You should see an entry called `tun0` with an IPv4 address. (You will need that if a bit for the second part.)
+You should see an entry called `tun0` with an IPv4 address. (You will be using the tun0 interface in a bit for the second part.)
 
+## Set up the bridge
+This is a modified version of the instructions linked below.
 
+https://frillip.com/using-your-raspberry-pi-3-as-a-wifi-access-point-with-hostapd/
 
+- Make sure that your USB Wifi card is attached to the R-Pi
+
+`ifconfig`
+
+You should see `wlan0` and `wlan1`.
+
+- Elevate to root. (Makes things easier now that we set a sudo password requirement.)
+
+`sudo su`
+
+- Install Needed Packages
+
+`apt-get install -y dnsmasq hostapd`
