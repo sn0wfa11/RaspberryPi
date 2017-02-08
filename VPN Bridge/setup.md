@@ -60,6 +60,8 @@ To:
 
 `pi ALL=(ALL) PASSWD: ALL`
 
+Save and exit.
+
 Then rename the file:
 
 `mv /etc/sudoers.d/010_pi-nopasswd /etc/sudoers.d/010_pi`
