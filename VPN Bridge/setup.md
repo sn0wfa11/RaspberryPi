@@ -96,11 +96,19 @@ Save and exit
 
 - Set it to start at boot
 
-`update-rc.d vpnconnect defaults
+`update-rc.d vpnconnect defaults`
 
 - Test it out
 
 `reboot`
 
 Check your OpenVPN server to make sure it is connected once the R-Pi boots up.
+
+Also check that the R-Pi knows it is connected:
+
+`ifconfig`
+
+You should see an entry called `tun0` with an IPv4 address. (You will need that if a bit for the second part.)
+
+
 
