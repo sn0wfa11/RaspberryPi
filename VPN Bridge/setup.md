@@ -5,9 +5,9 @@ This requires that you either have your own OpenVPN server or have service throu
 
 If you would like to set up your own, I have a script and instructions at: https://github.com/sn0wfa11/OpenVPN-Setup-Script
 
-I started this project mainly to be able to stream movies from my home Plex Server to a Google Chromecast while on vacation in Colorado, and not have to pay plex for remote service. (Why pay when you can learn how to get it for free!?)
+I started this project mainly to be able to stream movies from my home Plex Server to a Google Chromecast while on vacation in Colorado, and not have to pay Plex a montly fee for remote service. (Why pay when you can learn how to get it for free!?)
 
-One final note, I have training and experience in penetration testing. As such this and other projects have a level of security that other sites may not include. This comes from experience knowing what can be used for Linux privilege escalation. Better to be safe than sorry, especially in this project since it may have access to your internal home network if you are using your own OpenVPN server.
+One final note, I have training and experience in penetration testing. As such, this and other projects have a level of security that other sites may not include in similar instructions. This comes from experience knowing what can be used for Linux privilege escalation. Better to be safe than sorry, especially in this project as it may have access to your internal home network if you are using your own OpenVPN server.
 
 ## Requirements
 - A Raspberry Pi 3
