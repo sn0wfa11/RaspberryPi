@@ -17,12 +17,12 @@
 case "$1" in
   start)
     echo "Starting OpenVPN Connection"
-    # run application you want to start
+    # Make sure you use the full path to an application!!!!
     /usr/sbin/openvpn /root/client.ovpn
     ;;
   stop)
     echo "Stopping OpenVPN Connection"
-    # kill application you want to stop
+    # Stop Applicaiton
     killall openvpn
     ;;
   *)
