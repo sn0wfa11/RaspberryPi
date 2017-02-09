@@ -142,6 +142,43 @@ You should see `wlan0` and `wlan1`.
 
 `sudo su`
 
-- Install Needed Packages
+### Install First Set of Needed Packages
 
 `apt-get install -y dnsmasq hostapd`
+
+### Configure Interfaces
+In this section, we will be configuring the `wlan1` interface to be our Wifi access point. The nice part about connecting a second Wifi card to the R-Pi is that we can use either `wlan0` or `eth0` to connect to the internet.
+
+- Start by editing the `/etc/dhcpd.conf` file
+
+`nano /etc/dhcpcd.conf`
+
+Add the line following line at the bottom of the file: (If you have added any interfaces to this configuration file, the below line must occur before thoes interfaces.)
+
+`denyinterfaces wlan1`
+
+- Next we need to configure the `wlan1` interface with a static IP and a network subnet. (You can use the any of the private IPv4 subnets. A list of these network ranges can be found here: https://en.wikipedia.org/wiki/Private_network, I prefer the 10.x.x.x range, just make sure it is different than the subnet that your OpenVPN server is using.)
+
+`nano /etc/network/interfaces`
+
+Edit the `wlan1` section as follows: (Change the IPv4 subnet as needed to match your network enviornment.)
+
+```
+allow-hotplug wlan1
+iface wlan1 inet static
+    address 10.9.0.1
+    netmask 255.255.255.0
+    network 10.9.0.0
+    broadcast 10.9.0.255
+# wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+```
+
+- Restart dhcpcd
+
+`service dhcpcd restart`
+
+- Reload Config for `wlan1`
+
+`ifdown wlan1; ifup wlan1`
+
+### Configure HostAPD
