@@ -264,7 +264,7 @@ nano /etc/dnsmasq.conf
 Put the folliwng in the config file. Make sure you use the same subnet that you used above for the configuration of `wlan1`.
 
 ```
-interface=eth0      # Use interface eth0  
+interface=wlan1      # Use interface eth0  
 listen-address=10.9.0.1 # Explicitly specify the address to listen on  
 bind-interfaces      # Bind to the interface to make sure we aren't sending things elsewhere  
 server=8.8.8.8       # Forward DNS requests to Google DNS  
@@ -279,7 +279,7 @@ dhcp-range=10.9.0.50,10.9.0.150,12h # Assign IP addresses between 10.9.0.50 and 
 `sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"`
 
 - IPtables setup
-Run the following lines individually.
+This creates the routing between `wlan1` and `tun0`. Run the following lines individually.
 
 ```
 sudo iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE  
