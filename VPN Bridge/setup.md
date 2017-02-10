@@ -282,9 +282,9 @@ dhcp-range=10.9.0.50,10.9.0.150,12h # Assign IP addresses between 10.9.0.50 and 
 This creates the routing between `wlan1` and `tun0`. Run the following lines individually.
 
 ```
-iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE  
-iptables -A FORWARD -i tun0 -o wlan1 -m state --state RELATED,ESTABLISHED -j ACCEPT  
-iptables -A FORWARD -i wlan1 -o tun0 -j ACCEPT  
+iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
+iptables -A FORWARD -i tun0 -o wlan1 -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i wlan1 -o tun0 -j ACCEPT
 ```
 
 - Set up iptables-persistant.
