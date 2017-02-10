@@ -136,6 +136,10 @@ This is a modified version of the instructions linked below.
 
 https://frillip.com/using-your-raspberry-pi-3-as-a-wifi-access-point-with-hostapd/
 
+http://alphaloop.blogspot.com/2014/01/raspberry-pi-as-vpn-wireless-access.html
+
+https://makezine.com/projects/browse-anonymously-with-a-diy-raspberry-pi-vpntor-router/
+
 - Make sure that your USB Wifi card is attached to the R-Pi
 
 `ifconfig`
