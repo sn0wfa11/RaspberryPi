@@ -280,7 +280,7 @@ dhcp-range=10.9.0.50,10.9.0.150,12h # Assign IP addresses between 10.9.0.50 and 
 ### Set up IPv4 Forwarding and IPTables
 - Ip forwarding - One nice easy line
 
-`sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"`
+`echo 1 > /proc/sys/net/ipv4/ip_forward`
 
 - IPtables setup
 This creates the routing between `wlan1` and `tun0`. Run the following lines individually.
