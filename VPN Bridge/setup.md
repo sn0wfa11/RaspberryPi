@@ -70,6 +70,8 @@ Then rename the file:
 
 `mv /etc/sudoers.d/010_pi-nopasswd /etc/sudoers.d/010_pi`
 
+---
+
 ## Set Up OpenVPN to connect at boot time
 - Copy over the client.ovpn file that you created from your OpenVPN server or recieved from your OpenVPN service.
 - Place the client.ovpn file in the `/root/` directory.
@@ -127,6 +129,8 @@ Also check that the R-Pi knows it is connected:
 
 You should see an entry called `tun0` with an IPv4 address. (You will be using the tun0 interface in a bit for the second part.)
 
+---
+
 ## Set up the bridge
 This is a modified version of the instructions linked below.
 
@@ -182,3 +186,125 @@ iface wlan1 inet static
 `ifdown wlan1; ifup wlan1`
 
 ### Configure HostAPD
+Now you need to configure the Wifi access point that will be operating on `wlan1`. You can change any settings that you would like. Be sure to set a good WPA passphrase!
+
+`nano /etc/hostapd/hostapd.conf`
+
+Add the following config settings. **You need to set a passphrase!**
+
+```
+# wlan1 will be the access point for this setup
+interface=wlan1
+
+# Use the nl80211 driver with the brcmfmac driver
+driver=nl80211
+
+# This is the name of the network. Set it to what you like.
+ssid=GetOffMyLAN
+
+# Use the 2.4GHz band
+hw_mode=g
+
+# Use channel 6
+channel=6
+
+# Enable 802.11n
+ieee80211n=1
+
+# Enable WMM
+wmm_enabled=1
+
+# Enable 40MHz channels with 20ns guard interval
+ht_capab=[HT40][SHORT-GI-20][DSSS_CCK-40]
+
+# Accept all MAC addresses
+macaddr_acl=0
+
+# Use WPA authentication
+auth_algs=1
+
+# Require clients to know the network name
+ignore_broadcast_ssid=0
+
+# Use WPA2
+wpa=2
+
+# Use a pre-shared key
+wpa_key_mgmt=WPA-PSK
+
+# The network passphrase. CHANGE ME! Make it a good one!
+wpa_passphrase=<passphrase>
+
+# Use AES, instead of TKIP
+rsn_pairwise=CCMP
+```
+
+- Configure HostAPD to know where to get the settings.
+
+`nano /etc/default/hostapd`
+
+Change the following line:
+
+`#DAEMON_CONF=""`
+
+To:
+
+`DAEMON_CONF="/etc/hostapd/hostapd.conf"`
+
+### Configure DNSMASQ
+This will set up your DNS requests and IP assignments for the Wifi Access point.
+
+- Start my renaming the old config file and making a new one
+
+```
+mv /etc/dnsmasq.conf /etc/dnsmasq.conf.old
+nano /etc/dnsmasq.conf
+```
+
+Put the folliwng in the config file. Make sure you use the same subnet that you used above for the configuration of `wlan1`.
+
+```
+interface=eth0      # Use interface eth0  
+listen-address=10.9.0.1 # Explicitly specify the address to listen on  
+bind-interfaces      # Bind to the interface to make sure we aren't sending things elsewhere  
+server=8.8.8.8       # Forward DNS requests to Google DNS  
+domain-needed        # Don't forward short names  
+bogus-priv           # Never forward addresses in the non-routed address spaces.  
+dhcp-range=10.9.0.50,10.9.0.150,12h # Assign IP addresses between 10.9.0.50 and 10.9.0.150 with a 12 hour lease time.
+```
+
+### Set up IPv4 Forwarding and IPTables
+- Ip forwarding - One nice easy line
+
+`sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"`
+
+- IPtables setup
+Run the following lines individually.
+
+```
+sudo iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE  
+sudo iptables -A FORWARD -i tun0 -o wlan1 -m state --state RELATED,ESTABLISHED -j ACCEPT  
+sudo iptables -A FORWARD -i wlan1 -o tun0 -j ACCEPT  
+```
+
+- Set up iptables-persistant.
+I prefer this method over the manual "iptables-restore" method.
+
+**Be sure to select `yes` when the setup script asks you to save the IPv4 tables**
+
+`apt-get install -y iptables-persistent`
+
+Set the service to start at boot.
+
+`update-rc.d netfilter-persistent enable`
+
+### Start Services and Set Start at Boot
+```
+service hostapd start
+service dnsmasq start
+update-rc.d hostapd enable
+update-rc.d dnsmasq enable
+```
+
+### Reboot
+That's it. Test stuff out to make sure it all works correctly.
