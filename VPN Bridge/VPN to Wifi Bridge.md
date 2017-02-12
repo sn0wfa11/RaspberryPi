@@ -24,7 +24,7 @@ apt-get upgrade -y
 apt-get dist-upgrade -y
 rpi-update
 apt-get autoremove -y
-apt autoclean
+apt-get autoclean
 ```
 
 - Install the Openvpn application
