@@ -144,7 +144,7 @@ https://makezine.com/projects/browse-anonymously-with-a-diy-raspberry-pi-vpntor-
 
 `ifconfig`
 
-You should see `wlan0` and `wlan1`.
+You should see `wlan0`.
 
 - Elevate to root. (Makes things easier now that we set a sudo password requirement.)
 
@@ -155,7 +155,7 @@ You should see `wlan0` and `wlan1`.
 `apt-get install hostapd udhcpd bind9`
 
 ### Configure Interfaces
-In this section, we will be configuring the `wlan1` interface to be our Wifi access point. The nice part about connecting a second Wifi card to the R-Pi is that we can use either `wlan0` or `eth0` to connect to the internet.
+In this section, we will be configuring the `wlan0` interface to be our Wifi access point. 
 
 - Start by editing the `/etc/udhcpd.conf` file
 
@@ -188,7 +188,7 @@ To:
 
 - Next, set and configure the IP address for `wlan0`
 
-`ifconfig wlan0 192.168.0.1`
+`ifconfig wlan0 10.9.0.1`
 
 - And to make it stay that way edit `/etc/network/interfaces`
 
