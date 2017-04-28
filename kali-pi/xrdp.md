@@ -40,3 +40,7 @@ When you log in you will be greated with a login screen:
 ***Change the Session type to `sesman-any`***
 
 Login using your credentials - Likely as root on a Kali machine...
+
+**Be sure to logout instead of just clicking the `X`.**
+
+Logging out shuts down the VNC server that is feeding the RDP session. Failing to do that can cause login errors later on.
