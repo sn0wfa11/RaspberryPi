@@ -1,4 +1,6 @@
-# Port Knocking Information
+# Port Knocking
+
+This will hide open ports until you need to access them. If you keep everything filtered, ie. don't add rules for services not associated with port knocking, then an nmap scan on your Kali-pi will show no open ports and little information about it...
 
 ## How to set it up
 ### Configure Initial IP Tables
