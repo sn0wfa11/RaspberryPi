@@ -45,3 +45,8 @@ rm /etc/ssh/ssh_host_*
 dpkg-reconfigure openssh-server
 service ssh restart
 ```
+
+Other Links
+https://askubuntu.com/questions/497056/xfce-clock-issue
+https://www.cyberciti.biz/faq/howto-linux-unix-change-setup-timezone-tz-variable/
+https://unix.stackexchange.com/questions/167794/how-to-change-language-interface-in-xfce
