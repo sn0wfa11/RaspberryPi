@@ -14,16 +14,16 @@ Use Win32DiskImager to transfer the image over to your SD Card. This is a fairly
 ## Exapand the root FS
 After the SD Card is imaged it will not be using the entire space. Kali will not size it for you like Raspbian will, so you will need to do it manually. Below is far and above the easiest way I have found to do the resize. No scripts, no errors, no fuss.
 
-**Pre Req. You need to have Kali x86/x64 or a Linux machine with gparted available.**
+**Pre Req. You need to have Kali x86 or x64, or a Linux machine with gparted available.**
 
-- Boot up the Kalipi the first time to get things setup.
+- Boot up the Kali-pi the first time to get things setup.
 - Shut it down, and pull out the memory card.
-- Mount the SD card it in Kali/Linux x86/x64. (A VM or physical machine, does not matter.)
+- Mount the SD card in Kali Linux x86 or x64. (A VM or physical machine, does not matter.)
 - Open gparted
 - Expand partition to use the full SD card.
 - Apply all operations.
 - Unmount the SD card.
-- Put the SD card back into pi and boot up.
+- Put the SD card back into the pi and boot up.
 - Enjoy.
 
 ## Install Kali Full
