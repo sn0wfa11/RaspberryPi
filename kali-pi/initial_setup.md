@@ -46,7 +46,27 @@ dpkg-reconfigure openssh-server
 service ssh restart
 ```
 
-Other Links
-https://askubuntu.com/questions/497056/xfce-clock-issue
+## Fix xfce Clock
+Remove it from the top bar and add it back in... Easy fix...
+
+## Fix TimeZone Issue
+`dpkg-reconfigure tzdata`
+
+Then select the correct timezone. You may have to reboot.
+
 https://www.cyberciti.biz/faq/howto-linux-unix-change-setup-timezone-tz-variable/
+
+## Fix Language Problem
+Try this first:
+
+`dpkg-reconfigure locales`
+
+If that doesn't work do this:
+
+```
+echo "export LANGUAGE=en_US.utf8
+export LANG=en_US.utf8
+export LC_ALL=en_US.utf8" > $HOME/.i18n
+```
+
 https://unix.stackexchange.com/questions/167794/how-to-change-language-interface-in-xfce
