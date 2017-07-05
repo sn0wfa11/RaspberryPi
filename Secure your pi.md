@@ -2,18 +2,24 @@
 
 Standard R-Pi settings are a bit too insecure for me.
 
-- Change the `pi` user's password. **Make it good**
+## Change the `pi` user's password
+
+**Make it good**
 
 `pi@vpnbridge:~$ passwd` Follow the instructions
 
-- Change root's password. **Make this good and long!**
+## Change root's password
+
+**Make this good and long!**
 
 ```
 sudo su
 root@vpnbridge:~# passwd
 ```
 
-- Require a password for sudo. (This drives me nuts that it defauts to no password!!! Easy privilege escalation for an attacker!)
+## Require a password for sudo. 
+(This drives me nuts that it defauts to no password!!! Easy privilege escalation for an attacker!)
+
 ```
 sudo su
 cd /etc/sudoers.d/
