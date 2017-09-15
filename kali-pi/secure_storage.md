@@ -1,5 +1,5 @@
 # Add Encrypted Storage for your Kali-Pi!
-These instructions will walk you through creating an encrypted partition on your Kali-Pi.
+These instructions will walk you through creating an encrypted partition on your Kali-Pi's SD card.
 
 You can use this parition to store data such as private keys or Open VPN connection files that you don't want others to access if they find this device.
 
