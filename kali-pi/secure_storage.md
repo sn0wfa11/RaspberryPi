@@ -48,6 +48,10 @@ The rest of the instructions are from the command line.
 
 Select a good password or passphrase. **Don't use the same password as root or any user on the Pi!!!** Since `/etc/shadow` could be readable by anyone with physical access to the Pi they could crack those passwords!!!
 
+Also, if you plan to use a script or other type of automated password entry, avoid special characters such as `\` and `$` as bash will filter them out when using the echo command used in thoes scripts. 
+
+You can test your password by doing: `echo <password>` and see if what comes out matches your password.
+
 - Open the newly created volume (Use the same password you entered above.)
 
 `cryptsetup luksOpen /dev/sdb3 my_usb`
@@ -99,6 +103,14 @@ And it is good to use. Some notes on usage are below.
 ```
 umount /dev/mapper/sec_store
 cryptsetup luksClose /dev/mapper/sec_store
+```
+
+- If you need to change the password use the following commands:
+
+```
+umount /dev/mapper/sec_store
+cryptsetup luksClose /dev/mapper/sec_store
+cryptsetup --verbose --verify-passphrase luksChangeKey /dev/mmcblk0p3
 ```
 
 ## Using the encrypted partiton
