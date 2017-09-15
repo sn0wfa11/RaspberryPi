@@ -31,7 +31,101 @@ You can use this parition to store data such as private keys or Open VPN connect
 
 - On the main gparted window, click `Edit` and select `Apply All Operations`.
 
-- Once completed, close gparted
+- Once completed you should see a new partition at the end of the disk. In my case it was `/dev/sdb3`. Make a note of this partition name.
+
+- Close gparted
 
 ## Setup and Format Encrypted Partition
+The rest of the instructions are from the command line.
 
+- Open a new terminal window
+
+- Initialize the Encrypted Volume
+
+**WARNING 2: Make sure you have the correct drive and partion label!!! This will delete your data if you do not!!!**
+
+`cryptsetup --verbose --verify-passphrase luksFormat /dev/sdb3`
+
+Select a good password or passphrase. **Don't use the same password as root or any user on the Pi!!!** Since `/etc/shadow` could be readable by anyone with physical access to the Pi they could crack those passwords!!!
+
+- Open the newly created volume (Use the same password you entered above.)
+
+`cryptsetup luksOpen /dev/sdb3 my_usb`
+
+- Format and Label the partition inside the encrypted volume
+
+```
+mkfs.ext3 -L secstorage /dev/mapper/my_usb
+e2label /dev/mapper/my_usb secstorage
+```
+
+- Close the volume so you can put it back into your Pi
+
+`cryptsetup luksClose /dev/mapper/my_usb`
+
+- Safely remove the SD card from your computer and insert it back into your Pi device.
+
+## Mounting the new encrypted partition
+- From either SSH or through the `shell` command from a Metaspliot Meterpreter session you will need to run the following commands to mount the encrypted partition.
+
+- Start by identifying the label of the SD card as it is probably not `/dev/sda`.
+
+`cat /etc/fstab`
+
+Look for the device mounted to `/`. The line you are looking for should look something like this:
+
+`/dev/mmcblk0p2  / ext4 errors=remount-ro 0 1`
+
+Since partition 2 is the mounted as root and partition 1 is usually `/boot` our new partion should be `/dev/mmcblk0p3`.
+
+- Open the encrypted volume (Similar to above but note the different partition label and mount point.)
+
+`cryptsetup luksOpen /dev/mmcblk0p3 sec_store`
+
+Use the same password you selected during setup.
+
+- Make a new mount point in root's folder (Or select your own.)
+
+`mkdir -p /root/secstorage`
+
+- Mount the partion to this mount point
+
+`mount /dev/mapper/sec_store /root/secstorage`
+
+And it is good to use. Some notes on usage are below.
+
+- If you need to unmount the partion use the following commands:
+
+```
+umount /dev/mapper/sec_store
+cryptsetup luksClose /dev/mapper/sec_store
+```
+
+## Using the encrypted partiton
+- Storage of openvpn connection files is as easy as saving them to `/root/secstorage` or any subfolder in the directory.
+
+- If you want to store an SSH private key, you need to take a few extra steps.
+
+- If you do not have an SSH private/public key pair for this Kali-Pi you can generate one using the following:
+
+`ssh-keygen -t rsa -b 4096 -C "<username>@<host>"`
+
+Leave the password blank.
+
+Add the new private key to your local identity:
+
+`ssh-add ~/.ssh/id_rsa`
+
+Now to move the private key to the secure storage and make a symbolic link to reference it from `.ssh`
+
+```
+cd secstorage/
+mkdir -p ssh
+chmod 0700 ssh
+mv /root/.ssh/id_rsa /root/secstorage/ssh/
+ln -s /root/secstorage/ssh/id_rsa /root/.ssh/id_rsa
+```
+
+Now you can use public key authentication to ssh back into your own machine from the Kali-pi without having to worry about anyone getting unauthorized access to the private key.
+
+All you need to do is copy the public key from the Kali-pi into `/root/.ssh/authorized_keys` on your machine. You may need to activate public key authentication in `/etc/ssh/sshd_config`.
