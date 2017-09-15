@@ -126,6 +126,6 @@ mv /root/.ssh/id_rsa /root/secstorage/ssh/
 ln -s /root/secstorage/ssh/id_rsa /root/.ssh/id_rsa
 ```
 
-Now you can use public key authentication to ssh back into your own machine from the Kali-pi without having to worry about anyone getting unauthorized access to the private key.
+Now you can use public key authentication to ssh back into your own machine from the Kali-pi without having to worry about anyone getting unauthorized access to the private key. Pulling the power or removing the card will unmount and lock the encrypted partition.
 
 All you need to do is copy the public key from the Kali-pi into `/root/.ssh/authorized_keys` on your machine. You may need to activate public key authentication in `/etc/ssh/sshd_config`.
