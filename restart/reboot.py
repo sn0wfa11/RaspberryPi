@@ -19,13 +19,13 @@ def reboot():
   print "Rebooting..."
   print "Shutting Down"
   push()
-  time.sleep(10)
+  time.sleep(6)
   release()
   print "Waiting"
-  time.sleep(15)
+  time.sleep(10)
   print "Powering back on"
   push()
-  time.sleep(0.7)
+  time.sleep(0.3)
   release()
 
 def destroy():
