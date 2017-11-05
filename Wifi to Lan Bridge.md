@@ -30,7 +30,7 @@ network={
 ```
 
 ## Ethernet Static IP
-Setup a static ip for the dhcp server. If you are using Raspbian Stretch see below.
+Setup a static ip for the dhcp server. **If you are using Raspbian Stretch see below.**
 
 `nano /etc/network/interfaces`
 
@@ -60,7 +60,7 @@ static domain_name_servers=8.8.8.8
  
 
 ## DNSmasq Setup
-Save old config and make a new one. If you are using Raspbian Stretch see below.
+Save old config and make a new one. **If you are using Raspbian Stretch see below.**
 
 ```
 mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig  
