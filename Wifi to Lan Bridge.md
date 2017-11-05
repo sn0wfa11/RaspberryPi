@@ -30,7 +30,7 @@ network={
 ```
 
 ## Ethernet Static IP
-Setup a static ip for the dhcp server
+Setup a static ip for the dhcp server. If you are using Raspbian Stretch see below.
 
 `nano /etc/network/interfaces`
 
@@ -48,8 +48,19 @@ iface eth0 inet static
     broadcast 10.5.5.255
 ```
 
+### Raspbian Stretch
+ `nano /etc/dhcpcd.conf`
+ 
+ ```
+interface eth0
+static ip_address=10.5.5.1/24
+static routers=10.5.5.1
+static domain_name_servers=8.8.8.8
+```
+ 
+
 ## DNSmasq Setup
-Save old config and make a new one.
+Save old config and make a new one. If you are using Raspbian Stretch see below.
 
 ```
 mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig  
@@ -62,6 +73,16 @@ interface=eth0      # Use interface eth0
 listen-address=10.5.5.1 # Explicitly specify the address to listen on  
 bind-interfaces      # Bind to the interface to make sure we aren't sending things elsewhere  
 server=8.8.8.8       # Forward DNS requests to Google DNS  
+domain-needed        # Don't forward short names  
+bogus-priv           # Never forward addresses in the non-routed address spaces.  
+dhcp-range=10.5.5.50,10.5.5.150,12h # Assign IP addresses between 10.5.5.50 and 10.5.5.150 with a 12 hour lease time 
+```
+
+### Raspbian Stretch
+```
+interface=eth0      # Use interface eth0  
+listen-address=10.5.5.1 # Explicitly specify the address to listen on  
+bind-interfaces      # Bind to the interface to make sure we aren't sending things elsewhere  
 domain-needed        # Don't forward short names  
 bogus-priv           # Never forward addresses in the non-routed address spaces.  
 dhcp-range=10.5.5.50,10.5.5.150,12h # Assign IP addresses between 10.5.5.50 and 10.5.5.150 with a 12 hour lease time 
